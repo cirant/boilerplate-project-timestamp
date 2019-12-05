@@ -60,6 +60,18 @@ const dateControler = (req, res, next) => {
   }
 };
 
+const whoamiController = (req, res, next) => {
+  const userAgent = req.header('User-Agent');
+  const acceptLenguaje = req.header('accept-language');
+  const ip = req.header('x-forwarded-for').split(',')[0] || req.connection.remoteAddress;
+  res.status(200).json({
+    "ipaddress": ip,
+    "language": acceptLenguaje,
+    "software": userAgent
+  }):
+}
+
+app.get("/api/whoami", whoamiController);
 app.get("/api/timestamp/", validator, dateControler);
 app.get("/api/timestamp/:date_string", validator, dateControler);
 
